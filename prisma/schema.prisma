@@ -1,0 +1,30 @@
+generator client { 
+    provider = "prisma-client-js"
+}
+
+
+
+datasource db { 
+    provider = "postgresql"
+    url = env("DATABASE_URL")
+}
+
+model User { 
+    id Int @id @default(autoincrement()) // уникальный идентификатор. Каждый раз при создании нового пользователя будет инкремент id
+    fullName String
+    email String
+    password String
+
+
+    createdAt DateTime @default(now()) // Добавляет дату создания пользователя
+    updatedAt DateTime @updatedAt // Добавляет дату обновления пользователя
+}
+
+model Product { 
+     id Int @id @default(autoincrement())
+     name String
+     imageUrl String
+     createdAt DateTime @default(now())// Добавляет дату создания продукта
+     updatedAt DateTime @updatedAt // Добавляет дату обновления продукта
+
+}
