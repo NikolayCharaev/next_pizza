@@ -13,12 +13,22 @@ datasource db {
 model User { 
     id Int @id @default(autoincrement()) // уникальный идентификатор. Каждый раз при создании нового пользователя будет инкремент id
     fullName String
-    email String
+    email String @unique
     password String
 
 
     createdAt DateTime @default(now()) // Добавляет дату создания пользователя
     updatedAt DateTime @updatedAt // Добавляет дату обновления пользователя
+
+    cart Cart[]
+    orders Order[]
+}
+
+
+model Category { 
+    id Int @id @default(autoincrement()) 
+    name String
+    products Product[]
 }
 
 model Product { 
@@ -27,5 +37,101 @@ model Product {
      imageUrl String
      createdAt DateTime @default(now())// Добавляет дату создания продукта
      updatedAt DateTime @updatedAt // Добавляет дату обновления продукта
+     category Category @relation(fields: [categoryId], references: [id]) // указываем связь с моделью Category
+     categoryId Int // id категории связь называется one to many
+     products Ingridient[] // у продукта может быть множество ингридиентов. Такая связь называется Many to many
+     items ProductItem[] // но у одного продукта может быть множество вариаций
+}
 
+
+model ProductItem{ 
+     id Int @id @default(autoincrement())
+     price Int // цена
+     size Int? // размер
+     pizzaType Int? //  тонкая или толстая пицца
+     product Product @relation(fields: [productId] , references: [id]) // у одного варианта есть один продукт
+     productId Int
+     cartItems CartItem[]
+
+}
+
+
+model Ingridient { 
+    id Int @id @default(autoincrement())
+    name String
+    price Int
+    imageUrl String
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt 
+    products Product[] // у ингридиента может быть множество продуктов. Такая связь называется Many to many
+    cartItems CartItem[]
+}
+
+
+model Cart {  // модель корзины
+    id Int @id @default(autoincrement())
+
+    userId Int  @unique
+    user   User @relation(fields: [userId], references: [id])
+    items CartItem[]
+    totalAmount Int @default(0)
+    token String
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt 
+}
+
+
+model CartItem { 
+    id Int @id @default(autoincrement())
+    cart Cart @relation(fields: [cartId], references: [id])
+    cartId Int
+
+    productItem ProductItem @relation(fields: [productItemId], references: [id]) // делаю связь с моделью productItem
+    productItemId Int
+
+
+    quanity Int  // количество в корзине
+
+    ingridients Ingridient[]
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt 
+
+}
+
+
+model Order {  // модель заказа
+    id Int @id @default(autoincrement())
+    user User? @relation(fields: [userId], references: [id]) // мы можем узнать чей это заказ, но он может быть и у неавторизованного пользователя
+    userId Int?
+    token String
+    totalAmount Int
+    status OrderStatus
+    paymentId String? // нужен чтобы понять какой id заказа на уровне сервиса оплаты. В моем случае юмани
+
+    items Json // храним список товаров в корзине в JSON формате
+
+    
+    // храним информацию о пользователе заказавшем пиццу(это не обязательно должен быть user)
+    fullName String
+    address String
+    email String
+    comment String
+    phone String
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt 
+}
+
+
+model VerificationCode {  // код для верификации
+    id Int @id @default(autoincrement()) // 1 верификацоинный код есть у 1 пользователя
+}
+
+
+enum OrderStatus { 
+    PENDING
+    SUCCEEDED
+    CANCELLED
 }
