@@ -15,13 +15,17 @@ model User {
     fullName String
     email String @unique
     password String
-
+    role UserRole @default(USER)
 
     createdAt DateTime @default(now()) // Добавляет дату создания пользователя
     updatedAt DateTime @updatedAt // Добавляет дату обновления пользователя
 
-    cart Cart[]
+    cart Cart?
     orders Order[]
+    verificationCode VerificationCode?
+
+    provider String? 
+    providerId String?
 }
 
 
@@ -125,8 +129,15 @@ model Order {  // модель заказа
 }
 
 
-model VerificationCode {  // код для верификации
+model VerificationCode {  // верификационный код
     id Int @id @default(autoincrement()) // 1 верификацоинный код есть у 1 пользователя
+    user User @relation(fields: [userId], references: [id]) 
+    userId Int  @unique
+    code String
+
+    createdAt DateTime @default(now())
+
+    @@unique([userId, code]) // множественная проверка
 }
 
 
@@ -134,4 +145,10 @@ enum OrderStatus {
     PENDING
     SUCCEEDED
     CANCELLED
+}
+
+
+enum UserRole { 
+    USER
+    ADMIN
 }
