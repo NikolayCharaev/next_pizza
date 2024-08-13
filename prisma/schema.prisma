@@ -16,6 +16,7 @@ model User {
     email String @unique
     password String
     role UserRole @default(USER)
+    // phone String
 
     createdAt DateTime @default(now()) // Добавляет дату создания пользователя
     updatedAt DateTime @updatedAt // Добавляет дату обновления пользователя
@@ -23,7 +24,8 @@ model User {
     cart Cart?
     orders Order[]
     verificationCode VerificationCode?
-
+    verified DateTime
+    phone String?
     provider String? 
     providerId String?
 }
@@ -39,11 +41,12 @@ model Product {
      id Int @id @default(autoincrement())
      name String
      imageUrl String
+     active Boolean? @default(true)
      createdAt DateTime @default(now())// Добавляет дату создания продукта
      updatedAt DateTime @updatedAt // Добавляет дату обновления продукта
      category Category @relation(fields: [categoryId], references: [id]) // указываем связь с моделью Category
      categoryId Int // id категории связь называется one to many
-     products Ingridient[] // у продукта может быть множество ингридиентов. Такая связь называется Many to many
+     ingredients Ingridient[] // у продукта может быть множество ингридиентов. Такая связь называется Many to many
      items ProductItem[] // но у одного продукта может быть множество вариаций
 }
 
