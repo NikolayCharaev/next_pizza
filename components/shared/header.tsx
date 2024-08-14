@@ -4,6 +4,7 @@ import { Container } from './container';
 import Image from 'next/image';
 import { User, ShoppingCart, MoveRight } from 'lucide-react';
 import { Button } from '../ui';
+import { SearchInput } from './index';
 
 interface Props {
   className?: string;
@@ -21,6 +22,12 @@ export const Header: React.FC<Props> = ({ className }) => {
             <p className="text-sm text-gray-400 leading-3">вкусней уже некуда</p>
           </div>
         </div>
+
+
+        <div className="mx-10 flex-1">
+          <SearchInput/>
+        </div>
+
         {/* Правая часть */}
         <div className="flex items-center gap-3">
           <Button className="flex items-center gap-1" variant={'outline'}>
