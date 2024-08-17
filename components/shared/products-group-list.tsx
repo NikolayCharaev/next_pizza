@@ -31,7 +31,6 @@ export const ProductsGroupList: FC<Props> = ({
       setActiveId(categoryId);
     }
 
-    console.log(activeId)
   }, [intersection?.isIntersecting,activeId]);
 
   return (

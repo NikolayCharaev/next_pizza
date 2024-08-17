@@ -5,7 +5,7 @@ import { Button } from '../ui/index';
 import { Plus } from 'lucide-react';
 
 interface Props {
-  name: string;
+  name: string;np
   price: number;
   count: number;
   imageUrl: string;
