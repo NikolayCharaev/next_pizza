@@ -14,15 +14,11 @@ const cats = [
   { id: 5, name: 'Кофе' },
   { id: 6, name: 'Напитки' },
   { id: 7, name: 'Десерты' },
-  { id: 8, name: 'Десерты' }
+  { id: 8, name: 'Десерты' },
 ];
 
-
 export const Categories: React.FC<Props> = ({ className }) => {
-  const {activeId} = useCategory((state) => state);
-
-
-  console.log(activeId)
+  const { activeId } = useCategory((state) => state);
   return (
     <div className={cn('inline-flex gap-1 bg-gray-50 p-1 rounded-2xl', className)}>
       {cats.map((cat, i) => {
