@@ -4,7 +4,6 @@ import { cn } from '@/lib/utils';
 import { Title } from './index';
 
 import { Input, RangeSlider } from '../ui/index';
-import { FilterCheckbox } from './index';
 import { CheckboxFiltersGroup } from './checkbox-filters-group';
 import { useFilterIngridients } from '@/hooks/useFilterIngridients';
 import { useSet } from 'react-use';
@@ -79,11 +78,6 @@ export const Filters: React.FC<Props> = ({ className }) => {
       <Title text="Фильтрация" size="sm" className="mb-5 font-bold" />
 
       {/* Выбор категории */}
-      {/* <div className="flex flex-col gap-5">
-        <FilterCheckbox name="asd" text="Можно собирать" value="2" />
-        <FilterCheckbox name="asdasd" text="Новинки" value="1" />
-      </div> */}
-
       <CheckboxFiltersGroup
         title="Тип теста"
         name="pizzaTypes"
